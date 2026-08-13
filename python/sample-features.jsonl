@@ -1,0 +1,4 @@
+{"entity": "user-1", "timestamp": 100, "value": 1.0}
+{"entity": "user-1", "timestamp": 200, "value": 2.0}
+{"entity": "user-1", "timestamp": 300, "value": 3.0}
+{"entity": "user-2", "timestamp": 150, "value": 9.0}
