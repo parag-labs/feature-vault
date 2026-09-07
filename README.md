@@ -52,6 +52,22 @@ All three use the same binary-search as-of join, so they leak-check identically.
   decisions, and the non-goals. A leakage-fuzz suite cross-checks thousands of random
   scenarios against a brute-force oracle.
 
+## How it works
+
+```mermaid
+flowchart LR
+  classDef proc fill:#4a90e2,stroke:#2c5aa0,color:#fff
+  classDef good fill:#27ae60,stroke:#1e8449,color:#fff
+  classDef work fill:#8e44ad,stroke:#6c3483,color:#fff
+  TL["feature history<br/>v1@t1 - v2@t2 - v3@t3 - v4@t4 (future)"]:::proc
+  ROW["training row<br/>at event time T"]:::proc
+  JOIN["as-of join<br/>newest value with ts <= T"]:::work
+  OUT["returns v3<br/>v4 is after T, never returned"]:::good
+  TL --> JOIN
+  ROW --> JOIN
+  JOIN --> OUT
+```
+
 ## Layout
 
 ```
