@@ -24,7 +24,7 @@ Goals:
 
 ![point-in-time-correct join](docs/diagrams/point-in-time-join.png)
 
-*(Source: [`docs/diagrams/point-in-time-join.excalidraw`](docs/diagrams/point-in-time-join.excalidraw) - editable in [excalidraw](https://aka.ms/excalidraw).)*
+*(The same diagram renders inline as Mermaid in the [README](README.md#how-it-works); this PNG is a static export.)*
 
 ## The one invariant everything protects
 
