@@ -33,11 +33,11 @@ python src/cli.py sample-features.jsonl sample-spine.jsonl --max-staleness 200
 
 | Language | Tests | Run |
 |----------|:-----:|-----|
-| Python | 8 | `cd python && pytest -q` |
+| Python | 14 | `cd python && pytest -q` |
 | C# (.NET 10) | 8 | `cd csharp && dotnet test` |
 | Java (17+) | 8 | `cd java && mvn test` |
 
-All three use the same binary-search as-of join, so they leak-check identically.
+All three use the same binary-search as-of join, so they leak-check identically — that's the 8-test core (`test_store`) ported to each language. Python additionally ships a **6-test leakage-fuzz suite** (`test_leakage_fuzz.py`) that hammers the as-of boundary with randomized timestamps, so `pytest -q` runs 14 in total.
 
 ## Known limitations / next
 
