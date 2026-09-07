@@ -52,4 +52,16 @@ All three use the same binary-search as-of join, so they leak-check identically.
   decisions, and the non-goals. A leakage-fuzz suite cross-checks thousands of random
   scenarios against a brute-force oracle.
 
+## Layout
+
+```
+feature-vault/
+├── python/         reference implementation + pytest suite; sample feature/spine JSONL
+├── csharp/         .NET 10 port - FeatureStore.cs + tests
+├── java/           JDK 17+ port (Maven)
+├── docs/diagrams/  architecture diagrams
+└── DESIGN.md       point-in-time-correct joins and how future leakage is prevented
+```
+
+
 Part of [parag-labs](https://github.com/parag-labs) - small, focused tools for building AI systems you can trust.
