@@ -75,7 +75,6 @@ feature-vault/
 ├── python/         reference implementation + pytest suite; sample feature/spine JSONL
 ├── csharp/         .NET 10 port - FeatureStore.cs + tests
 ├── java/           JDK 17+ port (Maven)
-├── docs/diagrams/  architecture diagrams
 └── DESIGN.md       point-in-time-correct joins and how future leakage is prevented
 ```
 
