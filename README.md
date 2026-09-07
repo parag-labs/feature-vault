@@ -56,16 +56,16 @@ All three use the same binary-search as-of join, so they leak-check identically.
 
 ```mermaid
 flowchart LR
-  classDef proc fill:#4a90e2,stroke:#2c5aa0,color:#fff
-  classDef good fill:#27ae60,stroke:#1e8449,color:#fff
-  classDef work fill:#8e44ad,stroke:#6c3483,color:#fff
-  TL["feature history<br/>v1@t1 - v2@t2 - v3@t3 - v4@t4 (future)"]:::proc
-  ROW["training row<br/>at event time T"]:::proc
-  JOIN["as-of join<br/>newest value with ts <= T"]:::work
-  OUT["returns v3<br/>v4 is after T, never returned"]:::good
-  TL --> JOIN
+  classDef proc fill:#eff6ff,stroke:#3b82f6,color:#1e3a8a
+  classDef good fill:#f0fdf4,stroke:#22c55e,color:#14532d
+  classDef work fill:#faf5ff,stroke:#a855f7,color:#581c87
+  H["Feature history"]:::proc
+  ROW["Training row @ T"]:::proc
+  JOIN["As-of join"]:::work
+  OUT["Newest value ≤ T"]:::good
+  H --> JOIN
   ROW --> JOIN
-  JOIN --> OUT
+  JOIN -->|no future leak| OUT
 ```
 
 ## Layout
