@@ -26,6 +26,13 @@ Goals:
 
 *(The top panel walks the real sample - user-1 with values at t=100 / 200 / 300, queried as of T=150 - and shows the as-of join returning 1.0 while everything after T sits in a "never returned" zone. Below it: the sorted-timestamp + binary-search mechanism, the lazy sort, the strict staleness window, and the tie-break, with the invariant and fuzz-oracle guarantees called out.)*
 
+<details>
+<summary>Before the redraw - the earlier version of this diagram</summary>
+
+![point-in-time-correct join, before the redraw](docs/diagrams/point-in-time-join-v1.png)
+
+</details>
+
 ## The one invariant everything protects
 
 No join ever returns a value from the future. That's the property, and it's stated as
