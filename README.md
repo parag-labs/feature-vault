@@ -2,7 +2,7 @@
 
 **A mini feature store that refuses to leak the future.**
 
-The hardest, most valuable part of any ML feature store is the **point-in-time-correct join**: when you build a training set, every row must see only feature values that existed *at or before* that row's event time - never a value recorded afterward. Get it wrong and your offline metrics lie to you. FeatureVault implements that join correctly, in **Python, C#, and Java**.
+The hardest, most valuable part of any ML feature store is the **point-in-time-correct join**: when you build a training set, every row must see only feature values that existed *at or before* that row's event time - never a value recorded afterward. Get it wrong and your offline metrics lie to you. FeatureVault implements that join correctly, in **Python, C#, Java, Go, Rust, and TypeScript**.
 
 ## The problem: train/serve skew from data leakage
 
@@ -29,15 +29,22 @@ cd python
 python src/cli.py sample-features.jsonl sample-spine.jsonl --max-staleness 200
 ```
 
-## Three languages, one behavior
+## Six languages, one behavior
 
 | Language | Tests | Run |
 |----------|:-----:|-----|
 | Python | 14 | `cd python && pytest -q` |
 | C# (.NET 10) | 8 | `cd csharp && dotnet test` |
 | Java (17+) | 8 | `cd java && mvn test` |
+| Go (1.22+) | 20 | `cd go && go test ./...` |
+| Rust | 20 | `cd rust && cargo test` |
+| TypeScript | 21 | `cd ts && npm install && npm test` |
 
-All three use the same binary-search as-of join, so they leak-check identically — that's the 8-test core (`test_store`) ported to each language. Python additionally ships a **6-test leakage-fuzz suite** (`test_leakage_fuzz.py`) that hammers the as-of boundary with randomized timestamps, so `pytest -q` runs 14 in total.
+All six use the same binary-search as-of join, so they leak-check identically — that's the 8-test core (`test_store`) ported to each language. Python additionally ships a **6-test leakage-fuzz suite** (`test_leakage_fuzz.py`) that hammers the as-of boundary with randomized timestamps, so `pytest -q` runs 14 in total. The Go, Rust, and TypeScript ports carry that fuzz suite too (each cross-checks against a brute-force oracle) plus extra boundary and tie-break cases, which is why their counts are higher.
+
+### A pinned-down subtlety: same-timestamp ties
+
+When two values share a timestamp, the store returns a well-defined one: observations are ordered by `(timestamp, value)`, so the **largest value at that instant wins** (see [DESIGN.md](DESIGN.md)). The tie is still "present," not future, so it never affects the leak guarantee — but the new ports pin it with an explicit test, and the leakage-fuzz oracle replicates it exactly, so all six agree on which present value comes back.
 
 ## Known limitations / next
 
@@ -75,6 +82,9 @@ feature-vault/
 ├── python/         reference implementation + pytest suite; sample feature/spine JSONL
 ├── csharp/         .NET 10 port - FeatureStore.cs + tests
 ├── java/           JDK 17+ port (Maven)
+├── go/             Go port - store.go + tests
+├── rust/           Rust port - crate with store module + integration tests
+├── ts/             TypeScript port - store.ts + Vitest tests
 └── DESIGN.md       point-in-time-correct joins and how future leakage is prevented
 ```
 

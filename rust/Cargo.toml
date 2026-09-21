@@ -1,0 +1,9 @@
+[package]
+name = "feature-vault"
+version = "0.1.0"
+edition = "2021"
+description = "A minimal feature store with point-in-time-correct (as-of) joins."
+
+[lib]
+name = "feature_vault"
+path = "src/lib.rs"
